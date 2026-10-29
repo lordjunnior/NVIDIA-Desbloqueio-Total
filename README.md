@@ -1,4 +1,4 @@
-![gpu-unlock: full-speed tensor cores for GeForce RTX](assets/banner.svg)
+![NVIDIA-Desbloqueio-Total](capa.jpg)
 
 ### Sua GeForce roda IA pela metade da velocidade. Isto resolve o problema.
 
@@ -6,7 +6,7 @@
 
 **Até 2× de rendimento nos Tensor Cores para FP16 / BF16 / TF32** · **+25–55% em prefill de LLM** · **+25–50% em fine-tuning** · **+30–55% em geração de imagens**
 
-[GPUs Suportadas](#gpus-suportadas) · [Benchmarks](#o-que-voce-ganha) · [Instalação](#como-instalar) · [FAQ](#faq) · [Suporte](#apoie-o-projeto)
+[GPUs Suportadas](#gpus-suportadas) · [Benchmarks](#o-que-voce-ganha) · [Instalação](#como-instalar) · [FAQ](#faq) · [Como Funciona](#como-funciona)
 
 ---
 
@@ -21,7 +21,7 @@ A NVIDIA comercializa placas GeForce com os Tensor Cores limitados a **metade da
 | **Ampere** (RTX 30) | RTX 3050, 3060, 3060 Ti, 3070, 3070 Ti, 3080, 3080 Ti, 3090, 3090 Ti, além de GPUs de notebook RTX 3070/3080 | Estável, 100+ relatos de usuários |
 | **Ada Lovelace** (RTX 40) | RTX 4060, 4060 Ti, 4070, 4070 SUPER, 4070 Ti, 4070 Ti SUPER, 4080, 4080 SUPER, 4090, 4090 D, GPUs de notebook RTX 4050/4060 | Experimental |
 | **Turing** (RTX 20) | RTX 2060, 2060 SUPER, 2070, 2070 SUPER, 2080, 2080 SUPER, 2080 Ti, Titan RTX | Experimental |
-| Blackwell (RTX 50) | | Não suportado |
+| **Blackwell** (RTX 50) | — | Não suportado |
 
 Notebooks só permanecem desbloqueados se a GPU dedicada nunca for totalmente desligada. Muitos notebooks a desativam quando ociosa, o que reseta o desbloqueio silenciosamente. Desativar o gerenciamento de energia em tempo de execução com `options nvidia NVreg_DynamicPowerManagement=0x00` em `/etc/modprobe.d/` ajuda em alguns modelos, mas espere resultados mistos.
 
@@ -115,7 +115,7 @@ R: É muito improvável. A ferramenta apenas libera uma pequena restrição impo
 
 P: Como posso ajudar?
 
-R: Considere fazer uma doação para que eu possa adquirir mais GPUs <3.
+R: Considere apoiar o projeto original para que o desenvolvedor possa adquirir mais GPUs <3.
 
 Compilação Local
 Cada compilação baixa os arquivos da NVIDIA/CachyOS via HTTPS e gera o firmware estritamente no diretório de build e no pacote binário. Os três formatos utilizam os mesmos alvos de instalação make install-*. Os pacotes são gerados a partir da árvore de trabalho, incluindo alterações não commitadas.
@@ -131,7 +131,7 @@ O comando make install utiliza /etc/os-release (ID e depois ID_LIKE) para identi
 
 Os comandos make arch, make deb e make rpm realizam apenas a compilação. Pacotes Debian e RPM são direcionados para build/deb e build/rpm. As entradas da NVIDIA ficam em cache em ~/.cache/gpu-unlock/inputs (make inputs; sobrescreva utilizando INPUTS=). O utilitário dpkg-buildpackage não faz uso de rede, portanto uma construção em chroot limpo (sbuild ou pbuilder) precisa do parâmetro GPU_UNLOCK_INPUTS apontando para esse cache. O arquivo compactado make dist, o pacote fonte Debian e o .nosrc.rpm não contêm arquivos da NVIDIA nem firmwares gerados.
 
-Como funciona
+Como Funciona
 Este módulo de kernel para Linux combina a técnica V67/PLM do cmpunlocker com a abordagem de temporização pré-driver típica do método UEFI. No momento do boot, o sistema executa o desbloqueio, grava os seletores de velocidade (SS0 0x88888888, que seleciona a taxa completa em BF16, e o SS1 de 4 bits 0x8 IMLA4) e aplica um FLR (Function Level Reset) antes que o driver original da NVIDIA seja acoplado à placa. Trata-se de um módulo de kernel puro: não é um aplicativo UEFI nem um driver modificado da NVIDIA.
 
 Fluxo de boot e ativação (Opt-in)
