@@ -73,8 +73,8 @@ As saídas permanecem idênticas a nível de bit antes e depois; apenas a veloci
 Primeira execução:
 
 ```sh
-git clone [https://github.com/Zagitta/gpu-unlock](https://github.com/Zagitta/gpu-unlock)
-cd gpu-unlock
+git clone https://github.com/lordjunnior/NVIDIA-Desbloqueio-Total.git
+cd NVIDIA-Desbloqueio-Total
 make install
 Em seguida, adicione gpu_unlock.targets=all à linha de comando do seu kernel, preservando as opções existentes:
 
